@@ -25,7 +25,7 @@ Documentation for the API being used can be found here: https://developer.trimbl
 
 ## Getting Started
 1. Have a vaild Alteryx desktop installation (must be atleast version 2020.3).
-2. [**Download the yxi**](https://github.com/Aimpoint-Digital/PC-Miler-Alteryx-Macro/blob/e2ef1cb580100da329664a26f30fc58db1584783/Installer/PC%20Miler%20Truck%20Mileage.yxi) and install the macro (double click the yxi file once downloaded to install).
+2. [**Download the yxi**](https://github.com/Aimpoint-Digital/PC-Miler-Alteryx-Macro/blob/d5ae8ccaa57d0535703da22fccb48667f4f1b087/Installer/PC%20Miler%20Truck%20Mileage.yxi) and install the macro (double click the yxi file once downloaded to install).
 3. Close and reopen Alteryx for the macro to be added to the Connectors tab.
 4. Drag the macro in and provide:
    1. A valid PC Miler API Token Key (need to have purchased PC Miler Web Services Premium).
@@ -147,7 +147,7 @@ Column subset shown
 
 ## Demo Workflow
 A demo workflow can be found within this project to better assist in getting started: 
-[Demo Workflow](https://github.com/Aimpoint-Digital/PC-Miler-Alteryx-Macro/blob/8e7eb769e80f62dfc28c2e127dc47a5de1e7a69f/Example%20Workflow/PC%20Miler%20Example%20Workflow%201.yxzp)
+[Demo Workflow](https://github.com/Aimpoint-Digital/PC-Miler-Alteryx-Macro/blob/d5ae8ccaa57d0535703da22fccb48667f4f1b087/Example%20Workflow/PC%20Miler%20Demo%20Workflow.yxzp)
 
 
 ## Credit
