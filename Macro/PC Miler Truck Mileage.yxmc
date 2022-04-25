@@ -1,0 +1,1636 @@
+<?xml version="1.0"?>
+<AlteryxDocument yxmdVer="2020.3">
+  <Nodes>
+    <Node ToolID="25">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.MacroInput.MacroInput">
+        <Position x="54" y="270" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <UseFileInput value="False" />
+          <Name>Input25</Name>
+          <Abbrev />
+          <ShowFieldMap value="True" />
+          <Optional value="False" />
+          <TextInput>
+            <Configuration>
+              <NumRows value="4" />
+              <Fields>
+                <Field name="RouteID" />
+                <Field name="SeqID" />
+                <Field name="Lat" />
+                <Field name="Lon" />
+              </Fields>
+              <Data>
+                <r>
+                  <c>3321</c>
+                  <c>1</c>
+                  <c>40.3249066</c>
+                  <c>-76.773146</c>
+                </r>
+                <r>
+                  <c>3378</c>
+                  <c>1</c>
+                  <c>40.3249066</c>
+                  <c>-76.773146</c>
+                </r>
+                <r>
+                  <c>32</c>
+                  <c>1</c>
+                  <c>41.275641</c>
+                  <c>-75.4989161</c>
+                </r>
+                <r>
+                  <c>89</c>
+                  <c>1</c>
+                  <c>41.275641</c>
+                  <c>-75.4989161</c>
+                </r>
+              </Data>
+            </Configuration>
+          </TextInput>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>Input</DefaultAnnotationText>
+          <Left value="True" />
+        </Annotation>
+        <MetaInfo connection="Output">
+          <RecordInfo>
+            <Field name="RouteID" source="TextInput:" type="Int16" />
+            <Field name="SeqID" source="TextInput:" type="Byte" />
+            <Field name="Lat" source="TextInput:" type="Double" />
+            <Field name="Lon" source="TextInput:" type="Double" />
+          </RecordInfo>
+        </MetaInfo>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxMacroInput" />
+    </Node>
+    <Node ToolID="26">
+      <GuiSettings Plugin="AlteryxSpatialPluginsGui.Summarize.Summarize">
+        <Position x="522" y="270" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <SummarizeFields>
+            <SummarizeField field="RouteID" action="GroupBy" rename="RouteID" />
+            <SummarizeField field="latlon" action="Concat" rename="Concat_latlon">
+              <Concat_Start />
+              <Separator>%3B</Separator>
+              <Concat_End />
+            </SummarizeField>
+          </SummarizeFields>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+        <MetaInfo connection="Output">
+          <RecordInfo>
+            <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+            <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+          </RecordInfo>
+          <SortInfo>
+            <Field field="RouteID" order="Asc" />
+          </SortInfo>
+        </MetaInfo>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxSpatialPluginsEngine.dll" EngineDllEntryPoint="AlteryxSummarize" />
+    </Node>
+    <Node ToolID="28">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
+        <Position x="330" y="270" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <FormulaFields>
+            <FormulaField expression="[Lon]+'%2C'+[Lat]" field="latlon" size="1073741823" type="V_WString" />
+          </FormulaFields>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText><![CDATA[latlon = [Lon]+'%2C'+[Lat]
+]]></DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+        <MetaInfo connection="Output">
+          <RecordInfo>
+            <Field name="RouteID" source="TextInput:" type="Int16" />
+            <Field name="SeqID" source="TextInput:" type="Byte" />
+            <Field name="Lat" size="19" source="TextInput:" type="V_WString" />
+            <Field name="Lon" size="19" source="TextInput:" type="V_WString" />
+            <Field name="latlon" size="1073741823" source="Formula: [Lon]+'%2C'+[Lat]" type="V_WString" />
+          </RecordInfo>
+        </MetaInfo>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFormula" />
+    </Node>
+    <Node ToolID="29">
+      <GuiSettings Plugin="AlteryxConnectorGui.Download.Download">
+        <Position x="714" y="270" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Password />
+          <URLField>Mileage_API_Call</URLField>
+          <OutputMode>String</OutputMode>
+          <CodePage>65001</CodePage>
+          <EncodeURLs value="False" />
+          <Headers>
+            <NameValues />
+            <Fields orderChanged="False">
+              <Field name="authorization" />
+              <Field name="RouteID" selected="False" />
+              <Field name="Concat_latlon" selected="False" />
+              <Field name="Mileage_API_Call" selected="False" />
+              <Field name="Mileage API Call" selected="False" />
+              <Field name="*Unknown" selected="False" />
+            </Fields>
+          </Headers>
+          <Payload>
+            <HTTPAction>GET</HTTPAction>
+            <QueryStringBodyMode>Compose</QueryStringBodyMode>
+            <ComposeNameValues />
+            <ComposeFields orderChanged="False">
+              <Field name="RouteID" selected="False" />
+              <Field name="Concat_latlon" selected="False" />
+              <Field name="Mileage_API_Call" selected="False" />
+              <Field name="authorization" selected="False" />
+              <Field name="Mileage API Call" selected="False" />
+              <Field name="*Unknown" selected="False" />
+            </ComposeFields>
+          </Payload>
+          <UserName />
+          <numConnections>2</numConnections>
+          <Timeout>600</Timeout>
+          <EnableRPM value="False" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+        <MetaInfo connection="Output">
+          <RecordInfo>
+            <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+            <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+            <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+            <Field name="authorization" size="1073741823" source="Formula: 'APIKEY'" type="V_WString" />
+            <Field name="DownloadData" size="1073741823" source="Download" type="V_WString" />
+            <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+          </RecordInfo>
+        </MetaInfo>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxConnectorEngine.dll" EngineDllEntryPoint="AlteryxDownload" />
+    </Node>
+    <Node ToolID="30">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+        <Position x="234" y="270" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <OrderChanged value="False" />
+          <CommaDecimal value="False" />
+          <SelectFields>
+            <SelectField field="Lat" selected="True" type="V_WString" size="19" />
+            <SelectField field="Lon" selected="True" type="V_WString" size="19" />
+            <SelectField field="*Unknown" selected="True" />
+          </SelectFields>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+        <MetaInfo connection="Output">
+          <RecordInfo>
+            <Field name="RouteID" source="TextInput:" type="Int16" />
+            <Field name="SeqID" source="TextInput:" type="Byte" />
+            <Field name="Lat" size="19" source="TextInput:" type="V_WString" />
+            <Field name="Lon" size="19" source="TextInput:" type="V_WString" />
+          </RecordInfo>
+        </MetaInfo>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+    </Node>
+    <Node ToolID="31">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
+        <Position x="618" y="270" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <FormulaFields>
+            <FormulaField expression="'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" field="Mileage_API_Call" size="1073741823" type="V_WString" />
+            <FormulaField expression="'APIKEY'" field="authorization" size="1073741823" type="V_WString" />
+          </FormulaFields>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>Mileage_API_Call = 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/rou...</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+        <MetaInfo connection="Output">
+          <RecordInfo>
+            <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+            <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+            <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+            <Field name="authorization" size="1073741823" source="Formula: 'APIKEY'" type="V_WString" />
+          </RecordInfo>
+          <SortInfo>
+            <Field field="RouteID" order="Asc" />
+          </SortInfo>
+        </MetaInfo>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFormula" />
+    </Node>
+    <Node ToolID="33">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.Sort.Sort">
+        <Position x="426" y="270" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <SortInfo locale="1033">
+            <Field field="RouteID" order="Ascending" />
+            <Field field="SeqID" order="Ascending" />
+          </SortInfo>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>RouteID - Ascending
+SeqID - Ascending</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+        <MetaInfo connection="Output">
+          <RecordInfo>
+            <Field name="RouteID" source="TextInput:" type="Int16" />
+            <Field name="SeqID" source="TextInput:" type="Byte" />
+            <Field name="Lat" size="19" source="TextInput:" type="V_WString" />
+            <Field name="Lon" size="19" source="TextInput:" type="V_WString" />
+            <Field name="latlon" size="1073741823" source="Formula: [Lon]+'%2C'+[Lat]" type="V_WString" />
+          </RecordInfo>
+        </MetaInfo>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSort" />
+    </Node>
+    <Node ToolID="34">
+      <GuiSettings Plugin="AlteryxGuiToolkit.Questions.Tab.Tab">
+        <Position x="0" y="0" width="59" height="59" />
+      </GuiSettings>
+      <Properties>
+        <Configuration />
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+    </Node>
+    <Node ToolID="36">
+      <GuiSettings Plugin="AlteryxGuiToolkit.Questions.TextBox.QuestionTextBox">
+        <Position x="618" y="54" width="59" height="59" />
+      </GuiSettings>
+      <Properties>
+        <Configuration />
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>Text Box (36)</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+    </Node>
+    <Node ToolID="37">
+      <GuiSettings Plugin="AlteryxGuiToolkit.Action.Action">
+        <Position x="618" y="162" width="59" height="59" />
+      </GuiSettings>
+      <Properties>
+        <Configuration />
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>Update Value</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+    </Node>
+    <Node ToolID="38">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+        <Position x="810" y="270" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <OrderChanged value="False" />
+          <CommaDecimal value="False" />
+          <SelectFields>
+            <SelectField field="authorization" selected="False" />
+            <SelectField field="*Unknown" selected="True" />
+          </SelectFields>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+        <MetaInfo connection="Output">
+          <RecordInfo>
+            <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+            <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+            <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+            <Field name="DownloadData" size="1073741823" source="Download" type="V_WString" />
+            <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+          </RecordInfo>
+        </MetaInfo>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+    </Node>
+    <Node ToolID="71">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+        <Position x="138" y="270" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <OrderChanged value="False" />
+          <CommaDecimal value="False" />
+          <SelectFields>
+            <SelectField field="Lat" selected="True" type="FixedDecimal" size="19.4" />
+            <SelectField field="Lon" selected="True" type="FixedDecimal" size="19.4" />
+            <SelectField field="*Unknown" selected="True" />
+          </SelectFields>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+        <MetaInfo connection="Output">
+          <RecordInfo>
+            <Field name="RouteID" source="TextInput:" type="Int16" />
+            <Field name="SeqID" source="TextInput:" type="Byte" />
+            <Field name="Lat" scale="4" size="19" source="TextInput:" type="FixedDecimal" />
+            <Field name="Lon" scale="4" size="19" source="TextInput:" type="FixedDecimal" />
+          </RecordInfo>
+        </MetaInfo>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+    </Node>
+    <Node ToolID="65">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="896" y="164" width="147.5089" height="103" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Caption>Raw Output</Caption>
+          <Style TextColor="#314c4a" FillColor="#ecf2f2" BorderColor="#314c4a" Transparency="25" Margin="10" />
+          <Disabled value="False" />
+          <Folded value="False" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <ChildNodes>
+        <Node ToolID="35">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.MacroOutput.MacroOutput">
+            <Position x="906" y="198" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Name>Raw Output</Name>
+              <Abbrev>O</Abbrev>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>O Output</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxMacroOutput" />
+        </Node>
+      </ChildNodes>
+    </Node>
+    <Node ToolID="44">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="1376" y="536" width="611" height="147" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Caption>Leg Level</Caption>
+          <Style TextColor="#314c4a" FillColor="#ecf2f2" BorderColor="#314c4a" Transparency="25" Margin="10" />
+          <Disabled value="False" />
+          <Folded value="False" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <ChildNodes>
+        <Node ToolID="39">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
+            <Position x="1386" y="582" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Expression>LEFT([JSON_Name4],1) = "L"</Expression>
+              <Mode>Custom</Mode>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText>Pull Leg Total</AnnotationText>
+              <DefaultAnnotationText>LEFT([JSON_Name4],1) = "L"</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="True">
+              <RecordInfo>
+                <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+                <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+                <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+                <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+                <Field name="JSON_Name" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field name="JSON_ValueString" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name1" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name2" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="StopID" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name4" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name5" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name6" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+              </RecordInfo>
+            </MetaInfo>
+            <MetaInfo connection="False">
+              <RecordInfo>
+                <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+                <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+                <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+                <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+                <Field name="JSON_Name" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field name="JSON_ValueString" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name1" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name2" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="StopID" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name4" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name5" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name6" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFilter" />
+        </Node>
+        <Node ToolID="40">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
+            <Position x="1578" y="570" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <FormulaFields>
+                <FormulaField expression="RIGHT([JSON_Name4],Length([JSON_Name4])-1)" field="JSON_Name4" size="1073741823" type="V_WString" />
+                <FormulaField expression="TOSTRING(TONUMBER([StopID],0)-1)+'-'+[StopID]" field="LegPartID" size="1073741823" type="V_WString" />
+              </FormulaFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText>LegID, Clean headers</AnnotationText>
+              <DefaultAnnotationText>JSON_Name4 = RIGHT([JSON_Name4],Length([JSON_Name4])-1)
+LegPartID = TOSTRING(TON...</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+                <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+                <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+                <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+                <Field name="JSON_Name" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field name="JSON_ValueString" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name1" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name2" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="StopID" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name4" size="1073741823" source="Formula: RIGHT([JSON_Name4],Length([JSON_Name4])-1)" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name5" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name6" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field name="LegPartID" size="1073741823" source="Formula: TOSTRING(TONUMBER([StopID],0)-1)+'-'+[StopID]" type="V_WString" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFormula" />
+        </Node>
+        <Node ToolID="41">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="1674" y="570" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="JSON_Name" selected="False" />
+                <SelectField field="JSON_Name1" selected="False" rename="Lane ID" />
+                <SelectField field="JSON_Name2" selected="False" />
+                <SelectField field="JSON_Name4" selected="True" rename="Field Name" />
+                <SelectField field="JSON_Name5" selected="False" />
+                <SelectField field="JSON_Name6" selected="False" />
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+                <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+                <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+                <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+                <Field name="JSON_ValueString" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="StopID" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="Field Name" size="1073741823" source="Formula: RIGHT([JSON_Name4],Length([JSON_Name4])-1)" type="V_WString" />
+                <Field name="LegPartID" size="1073741823" source="Formula: TOSTRING(TONUMBER([StopID],0)-1)+'-'+[StopID]" type="V_WString" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+        <Node ToolID="42">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.CrossTab.CrossTab">
+            <Position x="1770" y="570" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <GroupFields>
+                <Field field="RouteID" />
+                <Field field="LegPartID" />
+              </GroupFields>
+              <HeaderField field="Field Name" />
+              <DataField field="JSON_ValueString" />
+              <Methods>
+                <Method method="Concat" />
+                <Separator>,</Separator>
+                <FieldSize value="2048" />
+              </Methods>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText>Row per route+leg</AnnotationText>
+              <DefaultAnnotationText>Row per route+leg</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="RouteID" source="CrossTab:Group:Concat:" type="Int16" />
+                <Field name="LegPartID" size="1073741823" source="CrossTab:Group:Concat:" type="V_WString" />
+              </RecordInfo>
+              <SortInfo>
+                <Field field="RouteID" order="Asc" />
+                <Field field="LegPartID" order="Asc" />
+              </SortInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxCrossTab" />
+        </Node>
+        <Node ToolID="67">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.MacroOutput.MacroOutput">
+            <Position x="1866" y="570" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Name>Leg</Name>
+              <Abbrev>L</Abbrev>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>L Output</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxMacroOutput" />
+        </Node>
+        <Node ToolID="69">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
+            <Position x="1482" y="582" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Mode>Simple</Mode>
+              <Simple>
+                <Operator>!=</Operator>
+                <Field>StopID</Field>
+                <Operands>
+                  <IgnoreTimeInDateTime>True</IgnoreTimeInDateTime>
+                  <DateType>fixed</DateType>
+                  <PeriodDate>2022-03-08 23:29:50</PeriodDate>
+                  <PeriodType>
+                  </PeriodType>
+                  <PeriodCount>0</PeriodCount>
+                  <StartDate>2022-03-08 23:29:50</StartDate>
+                  <EndDate>2022-03-08 23:29:50</EndDate>
+                  <Operand>0</Operand>
+                </Operands>
+              </Simple>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText>Remove first stop as not leg</AnnotationText>
+              <DefaultAnnotationText>[StopID] != "0"</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="True">
+              <RecordInfo>
+                <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+                <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+                <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+                <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+                <Field name="JSON_Name" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field name="JSON_ValueString" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name1" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name2" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="StopID" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name4" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name5" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name6" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+              </RecordInfo>
+            </MetaInfo>
+            <MetaInfo connection="False">
+              <RecordInfo>
+                <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+                <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+                <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+                <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+                <Field name="JSON_Name" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field name="JSON_ValueString" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name1" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name2" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="StopID" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name4" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name5" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name6" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFilter" />
+        </Node>
+      </ChildNodes>
+    </Node>
+    <Node ToolID="49">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="1280" y="704" width="420" height="135" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Caption>Stop Level</Caption>
+          <Style TextColor="#314c4a" FillColor="#ecf2f2" BorderColor="#314c4a" Transparency="25" Margin="10" />
+          <Disabled value="False" />
+          <Folded value="False" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <ChildNodes>
+        <Node ToolID="45">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
+            <Position x="1290" y="738" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <FormulaFields>
+                <FormulaField expression="IF NOT IsNull([JSON_Name6]) THEN [JSON_Name5]+'_'+[JSON_Name6] ELSE [JSON_Name5] ENDIF" field="Col_header" size="1073741823" type="V_WString" />
+              </FormulaFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText>Route Header</AnnotationText>
+              <DefaultAnnotationText>Col_header = IF NOT IsNull([JSON_Name6]) THEN [JSON_Name5]+'_'+[JSON_Name6] ELSE...</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+                <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+                <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+                <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+                <Field name="JSON_Name" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field name="JSON_ValueString" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name1" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name2" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="StopID" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name4" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name5" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name6" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field name="Col_header" size="1073741823" source="Formula: IF NOT IsNull([JSON_Name6]) THEN [JSON_Name5]+'_'+[JSON_Name6] ELSE [JSON_Name5] ENDIF" type="V_WString" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFormula" />
+        </Node>
+        <Node ToolID="46">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.CrossTab.CrossTab">
+            <Position x="1482" y="738" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <GroupFields>
+                <Field field="RouteID" />
+                <Field field="StopID" />
+              </GroupFields>
+              <HeaderField field="Col_header" />
+              <DataField field="JSON_ValueString" />
+              <Methods>
+                <Method method="Concat" />
+                <Separator>,</Separator>
+                <FieldSize value="2048" />
+              </Methods>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText>Row per route+stop</AnnotationText>
+              <DefaultAnnotationText>Row per route+stop</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="RouteID" source="CrossTab:Group:Concat:" type="Int16" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="StopID" size="1073741823" source="CrossTab:Group:Concat:" type="V_WString" />
+              </RecordInfo>
+              <SortInfo>
+                <Field field="RouteID" order="Asc" />
+                <Field field="StopID" order="Asc" />
+              </SortInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxCrossTab" />
+        </Node>
+        <Node ToolID="47">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="1386" y="738" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="JSON_Name3" selected="True" rename="StopID" />
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+                <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+                <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+                <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+                <Field name="JSON_Name" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field name="JSON_ValueString" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name1" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name2" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="StopID" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name4" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name5" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name6" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field name="Col_header" size="1073741823" source="Formula: IF NOT IsNull([JSON_Name6]) THEN [JSON_Name5]+'_'+[JSON_Name6] ELSE [JSON_Name5] ENDIF" type="V_WString" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+        <Node ToolID="68">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.MacroOutput.MacroOutput">
+            <Position x="1578" y="738" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Name>Stop</Name>
+              <Abbrev>S</Abbrev>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>S Output</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxMacroOutput" />
+        </Node>
+      </ChildNodes>
+    </Node>
+    <Node ToolID="55">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="896" y="392" width="499" height="135" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Caption>Example Parsing</Caption>
+          <Style TextColor="#314c4a" FillColor="#ecf2f2" BorderColor="#314c4a" Transparency="25" Margin="10" />
+          <Disabled value="False" />
+          <Folded value="False" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <ChildNodes>
+        <Node ToolID="50">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.JSONParse.JSONParse">
+            <Position x="906" y="426" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <JSON_Field>DownloadData</JSON_Field>
+              <IncludeInOutput value="False" />
+              <SingleField value="True" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText>Parse JSON</AnnotationText>
+              <DefaultAnnotationText>Parse JSON</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+                <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+                <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+                <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+                <Field name="JSON_Name" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field name="JSON_ValueString" size="1073741823" source="JSONParse: " type="V_WString" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxJSONParse" />
+        </Node>
+        <Node ToolID="51">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.TextToColumns.TextToColumns">
+            <Position x="1002" y="426" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Field>JSON_Name</Field>
+              <ErrorHandling>Last</ErrorHandling>
+              <RootName>JSON_Name</RootName>
+              <Delimeters value="." />
+              <NumFields value="6" />
+              <Flags value="0" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+                <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+                <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+                <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+                <Field name="JSON_Name" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field name="JSON_ValueString" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name1" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name2" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name3" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name4" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name5" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name6" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTextToColumns" />
+        </Node>
+        <Node ToolID="52">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
+            <Position x="1194" y="426" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Mode>Simple</Mode>
+              <Simple>
+                <Operator>!=</Operator>
+                <Field>JSON_Name4</Field>
+                <Operands>
+                  <IgnoreTimeInDateTime>True</IgnoreTimeInDateTime>
+                  <DateType>fixed</DateType>
+                  <PeriodDate>2022-01-18 18:02:39</PeriodDate>
+                  <PeriodType>
+                  </PeriodType>
+                  <PeriodCount>0</PeriodCount>
+                  <Operand>Stop</Operand>
+                  <StartDate>2022-01-18 18:02:39</StartDate>
+                  <EndDate>2022-01-18 18:02:39</EndDate>
+                </Operands>
+              </Simple>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText>Split Route from Stop Data</AnnotationText>
+              <DefaultAnnotationText>[JSON_Name4] != "Stop"</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="True">
+              <RecordInfo>
+                <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+                <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+                <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+                <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+                <Field name="JSON_Name" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field name="JSON_ValueString" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name1" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name2" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="StopID" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name4" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name5" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name6" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+              </RecordInfo>
+            </MetaInfo>
+            <MetaInfo connection="False">
+              <RecordInfo>
+                <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+                <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+                <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+                <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+                <Field name="JSON_Name" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field name="JSON_ValueString" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name1" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name2" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="StopID" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name4" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name5" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name6" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFilter" />
+        </Node>
+        <Node ToolID="53">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
+            <Position x="1290" y="426" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Mode>Simple</Mode>
+              <Simple>
+                <Operator>=</Operator>
+                <Field>JSON_Name2</Field>
+                <Operands>
+                  <IgnoreTimeInDateTime>True</IgnoreTimeInDateTime>
+                  <DateType>fixed</DateType>
+                  <PeriodDate>2022-01-18 18:04:24</PeriodDate>
+                  <PeriodType>
+                  </PeriodType>
+                  <PeriodCount>0</PeriodCount>
+                  <Operand>ReportLines</Operand>
+                  <StartDate>2022-01-18 18:04:24</StartDate>
+                  <EndDate>2022-01-18 18:04:24</EndDate>
+                </Operands>
+              </Simple>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText>Clean route and leg data</AnnotationText>
+              <DefaultAnnotationText>[JSON_Name2] = "ReportLines"</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="True">
+              <RecordInfo>
+                <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+                <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+                <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+                <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+                <Field name="JSON_Name" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field name="JSON_ValueString" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name1" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name2" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="StopID" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name4" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name5" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name6" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+              </RecordInfo>
+            </MetaInfo>
+            <MetaInfo connection="False">
+              <RecordInfo>
+                <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+                <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+                <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+                <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+                <Field name="JSON_Name" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field name="JSON_ValueString" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name1" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name2" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="StopID" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name4" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name5" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name6" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFilter" />
+        </Node>
+        <Node ToolID="54">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="1098" y="426" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="JSON_Name3" selected="True" rename="StopID" />
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+                <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+                <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+                <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+                <Field name="JSON_Name" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field name="JSON_ValueString" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name1" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name2" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="StopID" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name4" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name5" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name6" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+      </ChildNodes>
+    </Node>
+    <Node ToolID="64">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="1376" y="380" width="709" height="135" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Caption>RouteID</Caption>
+          <Style TextColor="#314c4a" FillColor="#ecf2f2" BorderColor="#314c4a" Transparency="25" Margin="10" />
+          <Disabled value="False" />
+          <Folded value="False" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <ChildNodes>
+        <Node ToolID="56">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="1770" y="414" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="JSON_Name" selected="False" />
+                <SelectField field="JSON_Name1" selected="False" rename="Lane ID" />
+                <SelectField field="JSON_Name2" selected="False" />
+                <SelectField field="JSON_Name4" selected="True" rename="Field Name" />
+                <SelectField field="JSON_Name5" selected="False" />
+                <SelectField field="JSON_Name6" selected="False" />
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+                <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+                <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+                <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+                <Field name="JSON_ValueString" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="StopID" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="Field Name" size="1073741823" source="Formula: RIGHT([JSON_Name4],Length([JSON_Name4])-1)" type="V_WString" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+        <Node ToolID="57">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.CrossTab.CrossTab">
+            <Position x="1866" y="414" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <GroupFields>
+                <Field field="RouteID" />
+              </GroupFields>
+              <HeaderField field="Field Name" />
+              <DataField field="JSON_ValueString" />
+              <Methods>
+                <Method method="Concat" />
+                <Separator>,</Separator>
+                <FieldSize value="2048" />
+              </Methods>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText>Row per route</AnnotationText>
+              <DefaultAnnotationText>Row per route</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="RouteID" source="CrossTab:Group:Concat:" type="Int16" />
+              </RecordInfo>
+              <SortInfo>
+                <Field field="RouteID" order="Asc" />
+              </SortInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxCrossTab" />
+        </Node>
+        <Node ToolID="59">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
+            <Position x="1674" y="414" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <FormulaFields>
+                <FormulaField expression="RIGHT([JSON_Name4],Length([JSON_Name4])-1)" field="JSON_Name4" size="1073741823" type="V_WString" />
+              </FormulaFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText>Clean headers</AnnotationText>
+              <DefaultAnnotationText><![CDATA[JSON_Name4 = RIGHT([JSON_Name4],Length([JSON_Name4])-1)
+]]></DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+                <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+                <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+                <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+                <Field name="JSON_Name" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field name="JSON_ValueString" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name1" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name2" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="StopID" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name4" size="1073741823" source="Formula: RIGHT([JSON_Name4],Length([JSON_Name4])-1)" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name5" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name6" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFormula" />
+        </Node>
+        <Node ToolID="61">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Sort.Sort">
+            <Position x="1482" y="414" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <SortInfo locale="1033">
+                <Field field="RouteID" order="Ascending" />
+                <Field field="StopID" order="Descending" />
+              </SortInfo>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText>Sort to Select Last Stop</AnnotationText>
+              <DefaultAnnotationText>RouteID - Ascending
+StopID - Descending</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+                <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+                <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+                <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+                <Field name="JSON_Name" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field name="JSON_ValueString" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name1" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name2" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="StopID" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name4" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name5" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name6" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSort" />
+        </Node>
+        <Node ToolID="62">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Unique.Unique">
+            <Position x="1578" y="414" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <UniqueFields>
+                <Field field="RouteID" />
+                <Field field="JSON_Name4" />
+              </UniqueFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText>Return last record per Route per KPI</AnnotationText>
+              <DefaultAnnotationText>Return last record per Route</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Unique">
+              <RecordInfo>
+                <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+                <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+                <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+                <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+                <Field name="JSON_Name" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field name="JSON_ValueString" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name1" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name2" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="StopID" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name4" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name5" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name6" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+              </RecordInfo>
+              <SortInfo>
+                <Field field="RouteID" order="Asc" />
+                <Field field="JSON_Name4" order="Asc" />
+              </SortInfo>
+            </MetaInfo>
+            <MetaInfo connection="Duplicates">
+              <RecordInfo>
+                <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+                <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+                <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+                <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+                <Field name="JSON_Name" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field name="JSON_ValueString" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name1" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name2" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="StopID" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name4" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name5" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name6" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+              </RecordInfo>
+              <SortInfo>
+                <Field field="RouteID" order="Asc" />
+                <Field field="JSON_Name4" order="Asc" />
+              </SortInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxUnique" />
+        </Node>
+        <Node ToolID="66">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.MacroOutput.MacroOutput">
+            <Position x="1962" y="414" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Name>Route</Name>
+              <Abbrev>R</Abbrev>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText>R Output</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxMacroOutput" />
+        </Node>
+        <Node ToolID="70">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
+            <Position x="1386" y="426" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Expression>LEFT([JSON_Name4],1) = "T"</Expression>
+              <Mode>Custom</Mode>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText>Pull Route Total</AnnotationText>
+              <DefaultAnnotationText>LEFT([JSON_Name4],1) = "T"</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="True">
+              <RecordInfo>
+                <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+                <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+                <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+                <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+                <Field name="JSON_Name" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field name="JSON_ValueString" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name1" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name2" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="StopID" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name4" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name5" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name6" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+              </RecordInfo>
+            </MetaInfo>
+            <MetaInfo connection="False">
+              <RecordInfo>
+                <Field name="RouteID" source="Summarize: GroupBy - RouteID" type="Int16" />
+                <Field name="Concat_latlon" size="1073741823" source="Summarize: Concat - latlon" type="V_WString" />
+                <Field name="Mileage_API_Call" size="1073741823" source="Formula: 'https://pcmiler.alk.com/apis/rest/v1.0/Service.svc/route/routeReports?stops='+[Concat_latlon]+'&amp;reports=Mileage'" type="V_WString" />
+                <Field name="DownloadHeaders" size="2147483647" source="Download" type="V_String" />
+                <Field name="JSON_Name" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field name="JSON_ValueString" size="1073741823" source="JSONParse: " type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name1" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name2" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="StopID" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name4" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name5" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+                <Field description="TextToColumns: Parsed from JSON_Name" name="JSON_Name6" size="1073741823" source="TextToColumns: Parsed from JSON_Name" type="V_WString" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFilter" />
+        </Node>
+      </ChildNodes>
+    </Node>
+  </Nodes>
+  <Connections>
+    <Connection>
+      <Origin ToolID="25" Connection="Output" />
+      <Destination ToolID="71" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="26" Connection="Output" />
+      <Destination ToolID="31" Connection="Input" />
+    </Connection>
+    <Connection name="#2">
+      <Origin ToolID="37" Connection="Action" />
+      <Destination ToolID="31" Connection="Action" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="28" Connection="Output" />
+      <Destination ToolID="33" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="29" Connection="Output" />
+      <Destination ToolID="38" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="30" Connection="Output" />
+      <Destination ToolID="28" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="31" Connection="Output" />
+      <Destination ToolID="29" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="33" Connection="Output" />
+      <Destination ToolID="26" Connection="Input" />
+    </Connection>
+    <Connection name="#1">
+      <Origin ToolID="36" Connection="Question" />
+      <Destination ToolID="37" Connection="Question" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="38" Connection="Output" />
+      <Destination ToolID="50" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="38" Connection="Output" />
+      <Destination ToolID="35" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="71" Connection="Output" />
+      <Destination ToolID="30" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="39" Connection="True" />
+      <Destination ToolID="69" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="40" Connection="Output" />
+      <Destination ToolID="41" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="41" Connection="Output" />
+      <Destination ToolID="42" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="42" Connection="Output" />
+      <Destination ToolID="67" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="69" Connection="True" />
+      <Destination ToolID="40" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="45" Connection="Output" />
+      <Destination ToolID="47" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="46" Connection="Output" />
+      <Destination ToolID="68" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="47" Connection="Output" />
+      <Destination ToolID="46" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="50" Connection="Output" />
+      <Destination ToolID="51" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="51" Connection="Output" />
+      <Destination ToolID="54" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="52" Connection="True" />
+      <Destination ToolID="53" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="52" Connection="False" />
+      <Destination ToolID="45" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="53" Connection="True" />
+      <Destination ToolID="39" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="53" Connection="True" />
+      <Destination ToolID="70" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="54" Connection="Output" />
+      <Destination ToolID="52" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="56" Connection="Output" />
+      <Destination ToolID="57" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="57" Connection="Output" />
+      <Destination ToolID="66" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="59" Connection="Output" />
+      <Destination ToolID="56" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="61" Connection="Output" />
+      <Destination ToolID="62" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="62" Connection="Unique" />
+      <Destination ToolID="59" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="70" Connection="True" />
+      <Destination ToolID="61" Connection="Input" />
+    </Connection>
+  </Connections>
+  <Properties>
+    <Memory default="True" />
+    <GlobalRecordLimit value="0" />
+    <TempFiles default="True" />
+    <Annotation on="True" includeToolName="False" />
+    <ConvErrorLimit value="10" />
+    <ConvErrorLimit_Stop value="False" />
+    <CancelOnError value="False" />
+    <DisableBrowse value="False" />
+    <EnablePerformanceProfiling value="False" />
+    <DisableAllOutput value="False" />
+    <ShowAllMacroMessages value="False" />
+    <ShowConnectionStatusIsOn value="True" />
+    <ShowConnectionStatusOnlyWhenRunning value="True" />
+    <ZoomLevel value="0" />
+    <LayoutType>Horizontal</LayoutType>
+    <Constants>
+      <Constant>
+        <Namespace>Question</Namespace>
+        <Name>Text Box (36)</Name>
+        <Value />
+        <IsNumeric value="False" />
+      </Constant>
+    </Constants>
+    <MetaInfo>
+      <NameIsFileName value="True" />
+      <Name>PC Miler Truck Mileage</Name>
+      <Description />
+      <RootToolName>PC Miler Truck Mileage</RootToolName>
+      <ToolVersion>1.0</ToolVersion>
+      <ToolInDb value="False" />
+      <CategoryName>Connectors</CategoryName>
+      <SearchTags />
+      <Author>Mina Ozgen and Bona Wang</Author>
+      <Company>Aimpoint Digital</Company>
+      <Copyright>2022</Copyright>
+      <DescriptionLink actual="" displayed="" />
+      <Example>
+        <Description />
+        <File />
+      </Example>
+    </MetaInfo>
+    <Events>
+      <Enabled value="True" />
+    </Events>
+    <RuntimeProperties>
+      <Actions>
+        <NoCondition>
+          <Type>NoCondition</Type>
+          <Description>(Always Run)</Description>
+          <True>
+            <Action>
+              <Type>UpdateValue</Type>
+              <Description />
+              <ToolId value="37" />
+              <Mode>Simple</Mode>
+              <Variable />
+              <Replace value="True" />
+              <ReplaceText>APIKEY</ReplaceText>
+              <Destination>31/FormulaFields/FormulaField[@field='authorization']/@expression</Destination>
+            </Action>
+          </True>
+        </NoCondition>
+      </Actions>
+      <Questions>
+        <Question>
+          <Type>Tab</Type>
+          <Description>Questions</Description>
+          <Name>Tab (34)</Name>
+          <ToolId value="34" />
+          <Questions>
+            <Question>
+              <Type>TextBox</Type>
+              <Description>Enter PC Miler API Key</Description>
+              <Name>Text Box (36)</Name>
+              <ToolId value="36" />
+              <Default />
+              <Password value="True" />
+              <Multiline value="False" />
+              <Hidden value="False" />
+            </Question>
+            <Question>
+              <Type>MacroInput</Type>
+              <Description />
+              <Name>Macro Input (25)</Name>
+              <ToolId value="25" />
+            </Question>
+            <Question>
+              <Type>MacroOutput</Type>
+              <Description>Macro Output (66)</Description>
+              <Name>Macro Output (66)</Name>
+              <ToolId value="66" />
+            </Question>
+            <Question>
+              <Type>MacroOutput</Type>
+              <Description>Macro Output (66)</Description>
+              <Name>Macro Output (67)</Name>
+              <ToolId value="67" />
+            </Question>
+            <Question>
+              <Type>MacroOutput</Type>
+              <Description>Macro Output (66)</Description>
+              <Name>Macro Output (68)</Name>
+              <ToolId value="68" />
+            </Question>
+            <Question>
+              <Type>MacroOutput</Type>
+              <Description>Macro Output (35)</Description>
+              <Name>Macro Output (35)</Name>
+              <ToolId value="35" />
+            </Question>
+          </Questions>
+        </Question>
+      </Questions>
+      <ModuleType>Macro</ModuleType>
+      <MacroCustomHelp value="False" />
+      <MacroDynamicOutputFields value="False" />
+      <MacroImage>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</MacroImage>
+      <MacroInputs />
+      <MacroOutputs />
+      <Wiz_CustomHelp value="False" />
+      <Wiz_CustomGraphic value="False" />
+      <Wiz_ShowOutput value="True" />
+      <Wiz_OpenOutputTools>
+        <Tool ToolId="25" Selected="True" />
+        <Tool ToolId="35" Selected="True" />
+        <Tool ToolId="67" Selected="True" />
+        <Tool ToolId="68" Selected="True" />
+        <Tool ToolId="66" Selected="True" />
+      </Wiz_OpenOutputTools>
+      <Wiz_OutputMessage />
+      <Wiz_NoOutputFilesMessage />
+      <Wiz_ChainRunWizard />
+    </RuntimeProperties>
+  </Properties>
+</AlteryxDocument>
